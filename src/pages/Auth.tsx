@@ -5,17 +5,20 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/contexts/AuthContext';
 import { ArrowLeft, Shield, Zap, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const Auth: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { signUp, signIn, user } = useAuth();
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const { signUp, signIn, signInWithGoogle, user } = useAuth();
   const navigate = useNavigate();
 
   // Redirect if already authenticated
-  useEffect(() => {
+  MapPin,
+  ArrowLeft
     if (user) {
       navigate('/dashboard');
     }
