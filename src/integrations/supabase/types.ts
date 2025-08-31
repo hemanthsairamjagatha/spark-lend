@@ -14,7 +14,371 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      loan_requests: {
+        Row: {
+          amount: number
+          amount_funded: number | null
+          borrower_id: string
+          created_at: string
+          expires_at: string
+          id: string
+          interest_rate: number
+          purpose: string | null
+          status: Database["public"]["Enums"]["loan_status"] | null
+          term_days: number
+          updated_at: string
+          visibility_radius_km: number | null
+        }
+        Insert: {
+          amount: number
+          amount_funded?: number | null
+          borrower_id: string
+          created_at?: string
+          expires_at: string
+          id?: string
+          interest_rate: number
+          purpose?: string | null
+          status?: Database["public"]["Enums"]["loan_status"] | null
+          term_days: number
+          updated_at?: string
+          visibility_radius_km?: number | null
+        }
+        Update: {
+          amount?: number
+          amount_funded?: number | null
+          borrower_id?: string
+          created_at?: string
+          expires_at?: string
+          id?: string
+          interest_rate?: number
+          purpose?: string | null
+          status?: Database["public"]["Enums"]["loan_status"] | null
+          term_days?: number
+          updated_at?: string
+          visibility_radius_km?: number | null
+        }
+        Relationships: []
+      }
+      loan_splits: {
+        Row: {
+          amount_contributed: number
+          created_at: string
+          id: string
+          interest_rate: number
+          lender_id: string
+          loan_request_id: string
+          platform_fee: number | null
+          status: Database["public"]["Enums"]["loan_status"] | null
+        }
+        Insert: {
+          amount_contributed: number
+          created_at?: string
+          id?: string
+          interest_rate: number
+          lender_id: string
+          loan_request_id: string
+          platform_fee?: number | null
+          status?: Database["public"]["Enums"]["loan_status"] | null
+        }
+        Update: {
+          amount_contributed?: number
+          created_at?: string
+          id?: string
+          interest_rate?: number
+          lender_id?: string
+          loan_request_id?: string
+          platform_fee?: number | null
+          status?: Database["public"]["Enums"]["loan_status"] | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loan_splits_loan_request_id_fkey"
+            columns: ["loan_request_id"]
+            isOneToOne: false
+            referencedRelation: "loan_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      loans: {
+        Row: {
+          amount_repaid: number | null
+          borrower_id: string
+          created_at: string
+          due_date: string
+          fine_amount: number | null
+          id: string
+          interest_rate: number
+          loan_request_id: string
+          status: Database["public"]["Enums"]["loan_status"] | null
+          term_days: number
+          total_amount: number
+          updated_at: string
+        }
+        Insert: {
+          amount_repaid?: number | null
+          borrower_id: string
+          created_at?: string
+          due_date: string
+          fine_amount?: number | null
+          id?: string
+          interest_rate: number
+          loan_request_id: string
+          status?: Database["public"]["Enums"]["loan_status"] | null
+          term_days: number
+          total_amount: number
+          updated_at?: string
+        }
+        Update: {
+          amount_repaid?: number | null
+          borrower_id?: string
+          created_at?: string
+          due_date?: string
+          fine_amount?: number | null
+          id?: string
+          interest_rate?: number
+          loan_request_id?: string
+          status?: Database["public"]["Enums"]["loan_status"] | null
+          term_days?: number
+          total_amount?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "loans_loan_request_id_fkey"
+            columns: ["loan_request_id"]
+            isOneToOne: false
+            referencedRelation: "loan_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          aadhar_number: string | null
+          avatar_url: string | null
+          cibil_score: number | null
+          created_at: string
+          credit_tier: Database["public"]["Enums"]["credit_tier"] | null
+          current_borrowing_limit: number | null
+          date_of_birth: string | null
+          email: string
+          full_name: string | null
+          id: string
+          is_blacklisted: boolean | null
+          kyc_status: Database["public"]["Enums"]["kyc_status"] | null
+          pan_number: string | null
+          phone: string | null
+          successful_repayments: number | null
+          total_borrowed: number | null
+          total_lent: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          aadhar_number?: string | null
+          avatar_url?: string | null
+          cibil_score?: number | null
+          created_at?: string
+          credit_tier?: Database["public"]["Enums"]["credit_tier"] | null
+          current_borrowing_limit?: number | null
+          date_of_birth?: string | null
+          email: string
+          full_name?: string | null
+          id?: string
+          is_blacklisted?: boolean | null
+          kyc_status?: Database["public"]["Enums"]["kyc_status"] | null
+          pan_number?: string | null
+          phone?: string | null
+          successful_repayments?: number | null
+          total_borrowed?: number | null
+          total_lent?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          aadhar_number?: string | null
+          avatar_url?: string | null
+          cibil_score?: number | null
+          created_at?: string
+          credit_tier?: Database["public"]["Enums"]["credit_tier"] | null
+          current_borrowing_limit?: number | null
+          date_of_birth?: string | null
+          email?: string
+          full_name?: string | null
+          id?: string
+          is_blacklisted?: boolean | null
+          kyc_status?: Database["public"]["Enums"]["kyc_status"] | null
+          pan_number?: string | null
+          phone?: string | null
+          successful_repayments?: number | null
+          total_borrowed?: number | null
+          total_lent?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ratings: {
+        Row: {
+          comment: string | null
+          created_at: string
+          from_user_id: string
+          id: string
+          loan_id: string | null
+          rating: number | null
+          to_user_id: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          from_user_id: string
+          id?: string
+          loan_id?: string | null
+          rating?: number | null
+          to_user_id: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          from_user_id?: string
+          id?: string
+          loan_id?: string | null
+          rating?: number | null
+          to_user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ratings_loan_id_fkey"
+            columns: ["loan_id"]
+            isOneToOne: false
+            referencedRelation: "loans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      repayments: {
+        Row: {
+          amount: number
+          created_at: string
+          fine_portion: number | null
+          id: string
+          interest_portion: number
+          loan_id: string
+          payment_method: string | null
+          principal_portion: number
+          transaction_reference: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          fine_portion?: number | null
+          id?: string
+          interest_portion: number
+          loan_id: string
+          payment_method?: string | null
+          principal_portion: number
+          transaction_reference?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          fine_portion?: number | null
+          id?: string
+          interest_portion?: number
+          loan_id?: string
+          payment_method?: string | null
+          principal_portion?: number
+          transaction_reference?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "repayments_loan_id_fkey"
+            columns: ["loan_id"]
+            isOneToOne: false
+            referencedRelation: "loans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string | null
+          id: string
+          metadata: Json | null
+          reference_id: string | null
+          transaction_type: Database["public"]["Enums"]["transaction_type"]
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          reference_id?: string | null
+          transaction_type: Database["public"]["Enums"]["transaction_type"]
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          metadata?: Json | null
+          reference_id?: string | null
+          transaction_type?: Database["public"]["Enums"]["transaction_type"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      wallets: {
+        Row: {
+          balance_available: number | null
+          balance_escrow: number | null
+          currency: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance_available?: number | null
+          balance_escrow?: number | null
+          currency?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance_available?: number | null
+          balance_escrow?: number | null
+          currency?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +387,24 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      app_role: "borrower" | "lender" | "admin"
+      credit_tier: "starter" | "bronze" | "silver" | "gold" | "platinum"
+      kyc_status: "pending" | "submitted" | "verified" | "rejected"
+      loan_status:
+        | "pending"
+        | "partial"
+        | "fulfilled"
+        | "active"
+        | "completed"
+        | "defaulted"
+        | "cancelled"
+      transaction_type:
+        | "escrow_hold"
+        | "escrow_release"
+        | "disbursement"
+        | "repayment"
+        | "fee"
+        | "fine"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +531,27 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["borrower", "lender", "admin"],
+      credit_tier: ["starter", "bronze", "silver", "gold", "platinum"],
+      kyc_status: ["pending", "submitted", "verified", "rejected"],
+      loan_status: [
+        "pending",
+        "partial",
+        "fulfilled",
+        "active",
+        "completed",
+        "defaulted",
+        "cancelled",
+      ],
+      transaction_type: [
+        "escrow_hold",
+        "escrow_release",
+        "disbursement",
+        "repayment",
+        "fee",
+        "fine",
+      ],
+    },
   },
 } as const
